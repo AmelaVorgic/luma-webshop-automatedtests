@@ -43,7 +43,6 @@ export class CreateNewAccountForm {
 
   async shouldRequireAllFields() {
     const errorMessages = await this.errorMessages.allTextContents();
-    console.log(errorMessages);
     await expect(errorMessages).toContain('This is a required field.');
   }
 
