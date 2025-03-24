@@ -17,74 +17,65 @@ test.describe('Account Creation Tests', () => {
 
   test('required fields in form cannot be left empty', async ({ page }) => {
     await newAccountForm.submitForm();
-    const errorMessages = await newAccountForm.errorMessages.allTextContents();
-    expect(errorMessages).toContain('This is a required field.');
+    await newAccountForm.shouldRequireAllFields();
   });
 
    test('password cannot contain only lowercase letters', async ({ page }) => {
      await newAccountForm.fillPassword('testpassword');
      await newAccountForm.submitForm();
-     await expect(newAccountForm.passwordStrengthMeter).toBeVisible();
-     await expect(newAccountForm.passwordStrengthMeter).toContainText('Weak');
-     await expect(newAccountForm.passwordError).toHaveText('Minimum of different classes of characters in password is 3. Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+     await newAccountForm.shouldShowWeakPasswordMessage();
    });
 
    test('password cannot contain only uppercase letters', async ({ page }) => {
      await newAccountForm.fillPassword('TESTPASSWORD');
      await newAccountForm.submitForm();
-     await expect(newAccountForm.passwordStrengthMeter).toBeVisible();
-     await expect(newAccountForm.passwordStrengthMeter).toContainText('Weak');
-     await expect(newAccountForm.passwordError).toHaveText('Minimum of different classes of characters in password is 3. Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
-   });
+     await newAccountForm.shouldShowWeakPasswordMessage();   
+  });
 
    test('password cannot contain only lowercase and uppercase letters', async ({ page }) => {
      await newAccountForm.fillPassword('testPASSWORD');
      await newAccountForm.submitForm();
-     await expect(newAccountForm.passwordStrengthMeter).toBeVisible();
-     await expect(newAccountForm.passwordStrengthMeter).toContainText('Weak');
-     await expect(newAccountForm.passwordError).toHaveText('Minimum of different classes of characters in password is 3. Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+     await newAccountForm.shouldShowWeakPasswordMessage();   
    });
 
    test('valid password cannot have less than 8 valid characters or less than 3 character groups', async ({ page }) => {
      await newAccountForm.fillPassword('Test1');
      await newAccountForm.submitForm();
-     await expect(newAccountForm.passwordStrengthMeter).toBeVisible();
-     await expect(newAccountForm.passwordStrengthMeter).toContainText('Weak');
-     await expect(newAccountForm.passwordError).toHaveText('Minimum length of this field must be equal or greater than 8 symbols. Leading and trailing spaces will be ignored.');
-   });
+     await newAccountForm.shouldShowPasswordLengthError();  
+
+  });
 
    test('password must have at least three of categories: uppercase letter, lowercase letter, number, special character, and length of 8 characters for account creation', async ({ page }) => {
      await newAccountForm.fillPassword(validPassword);
      await newAccountForm.submitForm();
-     await expect(newAccountForm.passwordStrengthMeter).toBeVisible();
-     await expect(newAccountForm.passwordStrengthMeter).toContainText('Strong');
+     await newAccountForm.shouldIndicateStrongPassword();  
    });
 
   test('confirm password must match the previously entered password', async ({ page }) => {
     await newAccountForm.fillPassword(validPassword);
     await newAccountForm.fillConfirmPassword(invalidPassword);
     await newAccountForm.submitForm();
-    await expect(newAccountForm.confirmPasswordError).toHaveText('Please enter the same value again.');
+    await newAccountForm.shouldShowPasswordMismatchError();
   });
 
   test('email must be in valid email format', async ({ page }) => {
     await newAccountForm.fillEmail(invalidEmail);
     await newAccountForm.submitForm();
-    await expect(newAccountForm.emailError).toHaveText('Please enter a valid email address (Ex: johndoe@domain.com).');
+    await newAccountForm.shouldShowEmailFormatError();
   });
 
   test('user can create an account with a new email address', async ({ page }) => {
     
     await newAccountForm.fillAccountDetails(validName, validLastName, validEmail, validPassword);
     await newAccountForm.submitForm();
-    await expect(page).toHaveURL(/.*customer\/account/);
+    await newAccountForm.shouldNavigateToCustomerAccountPage(page);
   });
 
   test('user cannot create an account with an already registered email', async ({ page }) => {
 
     await newAccountForm.fillAccountDetails(validName, validLastName, registeredEmail, validPassword);
     await newAccountForm.submitForm();
-    await expect(newAccountForm.errorBanner).toHaveText('There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.');
+    await newAccountForm.shouldShowEmailAlreadyRegisteredError();
   });
 
 });

@@ -49,16 +49,54 @@ export class CreateNewAccountForm {
     await this.confirmPasswordInput.fill(password);
   }
 
+  async shouldRequireAllFields() {
+    const errorMessages = await this.errorMessages.allTextContents();
+    await expect(errorMessages).toContain('This is a required field.');
+  }
+
   async fillEmail(email: string) {
     await this.emailInput.fill(email);
+  }
+
+  async shouldShowEmailFormatError(){
+    await expect(this.emailError).toHaveText('Please enter a valid email address (Ex: johndoe@domain.com).');
+  }
+
+  async shouldShowEmailAlreadyRegisteredError(){
+    await expect(this.errorBanner).toHaveText('There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.');
   }
 
   async fillPassword(password: string) {
     await this.passwordInput.fill(password);
   }
 
+  async shouldShowWeakPasswordMessage(){
+    await expect(this.passwordStrengthMeter).toBeVisible();
+    await expect(this.passwordStrengthMeter).toContainText('Weak');
+    await expect(this.passwordError).toHaveText('Minimum of different classes of characters in password is 3. Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
+  }
+
+  async shouldShowPasswordLengthError(){
+    await expect(this.passwordStrengthMeter).toBeVisible();
+    await expect(this.passwordStrengthMeter).toContainText('Weak');
+    await expect(this.passwordError).toHaveText('Minimum length of this field must be equal or greater than 8 symbols. Leading and trailing spaces will be ignored.');
+  }
+
+  async shouldIndicateStrongPassword(){
+    await expect(this.passwordStrengthMeter).toBeVisible();
+    await expect(this.passwordStrengthMeter).toContainText('Strong');  
+  }
+
   async fillConfirmPassword(confirmPassword: string) {
     await this.confirmPasswordInput.fill(confirmPassword);
+  }
+
+  async shouldShowPasswordMismatchError(){
+    await expect(this.confirmPasswordError).toHaveText('Please enter the same value again.');
+  }
+
+  async shouldNavigateToCustomerAccountPage(page){
+    await expect(page).toHaveURL(/.*customer\/account/);
   }
 
   async submitForm() {
