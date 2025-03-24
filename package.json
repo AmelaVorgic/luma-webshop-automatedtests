@@ -1,0 +1,15 @@
+{
+  "name": "luma-webshop-automatedtests",
+  "version": "1.0.0",
+  "description": "This is repository for automated tests for test website Luma Webshop",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.13.10"
+  }
+}
