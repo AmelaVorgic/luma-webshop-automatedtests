@@ -27,3 +27,29 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+send_failure_email:
+    runs-on: ubuntu-latest
+    needs: test 
+    if: failure() 
+
+    steps:
+      - name: Download test artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: playwright-report
+
+      - name: Send email with failure artifacts
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com 
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Playwright Tests Failed"
+          body: "Playwright tests failed in branch ${{ github.ref_name }}. 
+            Check failure logs in attachment."
+          to: "amelavorgic@gmail.com"
+          from: "GitHub Actions <amelavorgic@gmail.com>"
+          attachments: |
+            test-results/test-report.html
