@@ -1,13 +1,9 @@
-name: Playwright Tests
+name: Schedueld Push
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   schedule:
-    - cron: "0 0 * * *" 
-  workflow_dispatch:
+    - cron: "0 0 * * *"
+
 jobs:
   test:
     timeout-minutes: 60
@@ -48,7 +44,7 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Playwright Tests Failed"
           body: "Playwright tests failed in branch ${{ github.ref_name }}. Check failure logs in attachment."
-          to: "amelavorgic@gmail.com"
-          from: "GitHub Actions <amelavorgic@gmail.com>"
+          to: ${{ secrets.EMAIL_USERNAME }}
+          from: "GitHub Actions ${{ secrets.EMAIL_USERNAME }}"
           attachments: |
             playwright-report/test-results/test-report.html
