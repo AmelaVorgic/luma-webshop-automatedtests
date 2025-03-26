@@ -39,12 +39,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: playwright-report
-
-      - name: List files in the downloaded artifact (for debugging)
-        run: |
-          echo "Listing files in the downloaded artifact:"
-          ls -R playwright-report  # This lists all files in the downloaded directory
-
       - name: Send email with failure artifacts
         uses: dawidd6/action-send-mail@v3
         with:
@@ -57,4 +51,4 @@ jobs:
           to: "amelavorgic@gmail.com"
           from: "GitHub Actions <amelavorgic@gmail.com>"
           attachments: |
-            playwright-report/test-results/test-report.html  # Adjust the path based on your file structure
+            playwright-report/test-results/test-report.html
