@@ -1,4 +1,4 @@
-name: Schedueld Push
+name: Daily E2E Tests Run
 
 on:
   schedule:
