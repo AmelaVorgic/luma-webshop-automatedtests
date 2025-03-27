@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { CreateNewAccountForm } from '../page-object-models/CreateNewAccountForm';
 import { CookiesBanner } from '../page-object-models/CookiesBanner';
-import { validName, validLastName, validEmail, invalidEmail, registeredEmail, validPassword, invalidPassword } from '../utils/auth_user';
+import { validName, validLastName, validEmail, invalidEmail, registeredEmail, validPassword, invalidPassword } from '../utils/auth_user_credentials';
 
 test.describe('Account Creation Tests', () => {
   let newAccountForm: CreateNewAccountForm;

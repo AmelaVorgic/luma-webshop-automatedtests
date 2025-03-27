@@ -95,6 +95,15 @@ export class CreateNewAccountForm {
     await this.createAnAccountButton.click();
   }
 
+  async registerNewUser(firstName: string, lastName: string, email: string, password: string) {
+    await this.firstNameInput.fill(firstName);
+    await this.lastNameInput.fill(lastName);
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.confirmPasswordInput.fill(password);
+    await this.createAnAccountButton.click();
+  }
+
   async clearForm() {
     await this.firstNameInput.clear();
     await this.lastNameInput.clear();

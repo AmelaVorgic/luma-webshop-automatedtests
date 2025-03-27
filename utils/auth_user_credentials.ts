@@ -8,8 +8,8 @@ export let registeredEmail: string;
 export let validPassword: string;
 export let invalidPassword: string;
 
-validName = faker.name.firstName();
-validLastName = faker.name.lastName();
+validName = faker.person.firstName();
+validLastName = faker.person.lastName();
 validEmail = faker.internet.email();
 invalidEmail = "usermail"
 registeredEmail = "test@test.com"
