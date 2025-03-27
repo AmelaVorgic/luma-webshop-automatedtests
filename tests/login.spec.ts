@@ -39,7 +39,7 @@ test.describe('Login Tests', () => {
     test('Verify valid email format error', async ({ page }) => {
         await loginPage.fillEmail(invalidEmail);
         await loginPage.submit();
-        await loginPage.shouldShowEmailFormatError();
+        await loginPage.assertIsEmailFormatErrorShown();
     });
 
     test('Verify successful login', async ({ page }) => {

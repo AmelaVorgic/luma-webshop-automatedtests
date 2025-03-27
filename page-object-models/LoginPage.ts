@@ -45,7 +45,7 @@ export class LoginPage {
         await expect(this.generalErrorMessage).toContainText('The account sign-in was incorrect');
     }
 
-    async shouldShowEmailFormatError() {
+    async assertIsEmailFormatErrorShown() {
         await expect(this.emailError).toHaveText('Please enter a valid email address (Ex: johndoe@domain.com).');
     }
 
