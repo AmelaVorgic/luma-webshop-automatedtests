@@ -50,11 +50,11 @@ export class CreateNewAccountForm {
     await this.emailInput.fill(email);
   }
 
-  async shouldShowEmailFormatError() {
+  async assertIsEmailFormatErrorShown() {
     await expect(this.emailError).toHaveText('Please enter a valid email address (Ex: johndoe@domain.com).');
   }
 
-  async shouldShowEmailAlreadyRegisteredError() {
+  async assertIsEmailAlreadyRegisteredErrorShown() {
     await expect(this.errorBanner).toHaveText('There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.');
   }
 
@@ -62,19 +62,19 @@ export class CreateNewAccountForm {
     await this.passwordInput.fill(password);
   }
 
-  async shouldShowWeakPasswordMessage() {
+  async assertIsWeakPasswordMessageShown() {
     await expect(this.passwordStrengthMeter).toBeVisible();
     await expect(this.passwordStrengthMeter).toContainText('Weak');
     await expect(this.passwordError).toHaveText('Minimum of different classes of characters in password is 3. Classes of characters: Lower Case, Upper Case, Digits, Special Characters.');
   }
 
-  async shouldShowPasswordLengthError() {
+  async assertIsPasswordLengthErrorShown() {
     await expect(this.passwordStrengthMeter).toBeVisible();
     await expect(this.passwordStrengthMeter).toContainText('Weak');
     await expect(this.passwordError).toHaveText('Minimum length of this field must be equal or greater than 8 symbols. Leading and trailing spaces will be ignored.');
   }
 
-  async shouldIndicateStrongPassword() {
+  async assertIsStrongPasswordShown() {
     await expect(this.passwordStrengthMeter).toBeVisible();
     await expect(this.passwordStrengthMeter).toContainText('Strong');
   }
@@ -83,15 +83,24 @@ export class CreateNewAccountForm {
     await this.confirmPasswordInput.fill(confirmPassword);
   }
 
-  async shouldShowPasswordMismatchError() {
+  async assertisPasswordMismatchErrorShown() {
     await expect(this.confirmPasswordError).toHaveText('Please enter the same value again.');
   }
 
-  async shouldNavigateToCustomerAccountPage(page: Page) {
+  async assertIsOnCustomerAccount(page: Page) {
     await expect(page).toHaveURL(/.*customer\/account/);
   }
 
   async submitForm() {
+    await this.createAnAccountButton.click();
+  }
+
+  async registerNewUser(firstName: string, lastName: string, email: string, password: string) {
+    await this.firstNameInput.fill(firstName);
+    await this.lastNameInput.fill(lastName);
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.confirmPasswordInput.fill(password);
     await this.createAnAccountButton.click();
   }
 
