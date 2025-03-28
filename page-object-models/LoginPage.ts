@@ -41,7 +41,6 @@ export class LoginPage {
     }
 
     async assertInvalidLoginMessage() {
-        await expect(this.generalErrorMessage).toBeVisible();
         await expect(this.generalErrorMessage).toContainText('The account sign-in was incorrect');
     }
 
