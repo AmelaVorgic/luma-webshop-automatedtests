@@ -1,5 +1,5 @@
 import { chromium, FullConfig } from '@playwright/test';
-import { registerNewTestUser } from './registered_user';
+import { registerNewTestUser } from './auth_user_methods';
 import path from 'path';
 
 async function globalSetup(config: FullConfig) {

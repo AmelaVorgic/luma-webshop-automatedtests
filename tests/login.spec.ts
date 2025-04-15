@@ -3,7 +3,7 @@ import { CreateNewAccountForm } from '../page-object-models/CreateNewAccountForm
 import { LoginPage } from '../page-object-models/LoginPage';
 import { CookiesBanner } from '../page-object-models/CookiesBanner';
 import { validEmail, invalidEmail, invalidPassword } from '../utils/auth_user_credentials';
-import { registerNewTestUser } from '../utils/registered_user';
+import { registerNewTestUser } from '../utils/auth_user_methods';
 
 test.use({ storageState: undefined });
 

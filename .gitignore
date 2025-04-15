@@ -405,4 +405,3 @@ FodyWeavers.xsd
 /blob-report/
 /playwright/.cache/
 node_modules/
-/cookies.json/
