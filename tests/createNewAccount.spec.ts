@@ -3,8 +3,6 @@ import { CreateNewAccountForm } from '../page-object-models/CreateNewAccountForm
 import { CookiesBanner } from '../page-object-models/CookiesBanner';
 import { validName, validLastName, validEmail, invalidEmail, registeredEmail, validPassword, invalidPassword } from '../utils/auth_user_credentials';
 
-test.use({ storageState: undefined });
-
 test.describe('Account Creation Tests', () => {
   let newAccountForm: CreateNewAccountForm;
   let cookiesBanner: CookiesBanner;
