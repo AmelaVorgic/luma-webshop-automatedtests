@@ -47,5 +47,3 @@ export async function loginTestUser(page: Page, registeredUser: { email: string;
     const cookies = await page.context().cookies();
     fs.writeFileSync(COOKIE_FILE_PATH, JSON.stringify(cookies, null, 2));
 }
-
-
