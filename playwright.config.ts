@@ -30,7 +30,9 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    storageState: './utils/auth/user.json', 
   },
+  globalSetup: './utils/globalSetup.ts',
 
   /* Configure projects for major browsers */
   projects: [

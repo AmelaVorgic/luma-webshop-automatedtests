@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 
 export let password: string;
 export async function registerNewTestUser(page: Page) {
-    await page.goto('/customer/account/create/');
+    await page.goto('https://magento.softwaretestingboard.com/customer/account/create/');
     const cookiesBanner = new CookiesBanner(page);
     await page.waitForLoadState('networkidle');
     await cookiesBanner.acceptCookies();

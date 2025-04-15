@@ -5,6 +5,8 @@ import { CookiesBanner } from '../page-object-models/CookiesBanner';
 import { validEmail, invalidEmail, invalidPassword } from '../utils/auth_user_credentials';
 import { registerNewTestUser } from '../utils/registered_user';
 
+test.use({ storageState: undefined });
+
 let registeredUser: { firstName: string; lastName: string; email: string; password: string };
 let browserContext: BrowserContext;
 let cookiesBanner: CookiesBanner;
@@ -13,6 +15,7 @@ test.describe('Login Tests', () => {
     let loginPage: LoginPage;
 
     test.beforeAll(async ({ browser }) => {
+        process.env.SKIP_GLOBAL_SETUP = 'true';
         browserContext = await browser.newContext();
         const page = await browserContext.newPage();
         registeredUser = await registerNewTestUser(page)
