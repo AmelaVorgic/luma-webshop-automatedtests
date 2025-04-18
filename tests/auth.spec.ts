@@ -19,7 +19,8 @@ setup('authenticate', async ({ page }) => {
     cookiesBanner = new CookiesBanner(page);
     await page.waitForLoadState('networkidle');
     await cookiesBanner.acceptCookies(); 
-    loginPage = new LoginPage(page);    await loginPage.login(username, password);
-
+    loginPage = new LoginPage(page);    
+    await loginPage.login(username, password);
+    
     await page.context().storageState({ path: authFile });
 });
