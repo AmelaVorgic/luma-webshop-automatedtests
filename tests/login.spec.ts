@@ -23,7 +23,8 @@ test.describe('Login Tests', () => {
         await page.goto('/customer/account/login/');
         cookiesBanner = new CookiesBanner(page);
         await page.waitForLoadState('networkidle');
-        await cookiesBanner.acceptCookies(); loginPage = new LoginPage(page);
+        await cookiesBanner.acceptCookies(); 
+        loginPage = new LoginPage(page);
     });
 
     test('required fields in form cannot be left empty', async ({ page: Page }) => {
