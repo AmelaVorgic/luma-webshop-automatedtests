@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { LoginPage } from '../page-object-models/LoginPage';
 import { CookiesBanner } from '../page-object-models/CookiesBanner';
 import path from 'path';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -22,5 +23,6 @@ setup('authenticate', async ({ page }) => {
     loginPage = new LoginPage(page);    
     await loginPage.login(username, password);
     
+    fs.mkdirSync(path.dirname(authFile), { recursive: true });
     await page.context().storageState({ path: authFile });
 });

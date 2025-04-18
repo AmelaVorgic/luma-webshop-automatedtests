@@ -27,7 +27,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://magento.softwaretestingboard.com',
     // baseURL: 'http://127.0.0.1:3000',
-    storageState: 'playwright/.auth/user.json',
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
@@ -38,7 +38,7 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
+    
     { name: 'setup', 
       testMatch: 'auth.setup.ts' 
     }
