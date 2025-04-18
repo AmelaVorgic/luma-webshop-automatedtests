@@ -9,7 +9,7 @@ export class LoginPage {
     emailError: Locator;
 
     constructor(page) {
-        this.emailInput = page.locator('#email');
+        this.emailInput = page.locator('input[name="login[username]"]');
         this.passwordInput = page.locator('[name="login[password]"]');
         this.signInButton = page.locator('.action.login.primary');
         this.errorMessage = page.locator('.mage-error');
