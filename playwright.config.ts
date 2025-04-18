@@ -38,7 +38,10 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
+    
+    { name: 'setup', 
+      testMatch: 'auth.setup.ts' 
+    }
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
