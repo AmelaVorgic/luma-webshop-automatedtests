@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 /**
  * Read environment variables from file.
@@ -34,14 +35,17 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    { 
+      name: 'setup', 
+      testMatch: /auth\.setup\.ts/, 
+    },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    
-    { name: 'setup', 
-      testMatch: 'auth.setup.ts' 
-    }
+      use: { 
+        ...devices['Desktop Chrome'] ,
+      },    },
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
