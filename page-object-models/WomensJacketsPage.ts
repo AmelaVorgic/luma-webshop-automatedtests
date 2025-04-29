@@ -45,6 +45,7 @@ export class WomensJacketsPage {
         const priceText = await priceLocator.innerText();
         const cleaned = priceText.replace(/[^0-9.]/g, '').trim();
         const price = parseFloat(cleaned);
+        prices.push(price);
       }
     }
     return prices;
@@ -52,7 +53,6 @@ export class WomensJacketsPage {
 
   async assertDescendingPriceSort() {
     const prices = await this.getAllProductPrices();
-    console.log('Prices fetched (desc):', prices);
     const isSortedDesc = prices.every((val, i, arr) => i === 0 || val <= arr[i - 1]);
     expect(isSortedDesc).toBe(true);
   }
