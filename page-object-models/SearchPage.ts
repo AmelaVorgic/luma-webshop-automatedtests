@@ -25,10 +25,6 @@ export class SearchPage {
         return names.map(name => name.trim());
     }
 
-    async getNoResultsMessage(): Promise<string> {
-        return await this.noResultsMessage.textContent() || '';
-    }
-
     async assertSearchResultsContainTerm(term: string) {
         const productNames = await this.getProductNames();
         await expect(productNames.some(name => name.toLowerCase().includes(term.toLowerCase()))).toBeTruthy();
