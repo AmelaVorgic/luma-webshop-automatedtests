@@ -1,37 +1,32 @@
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
 
 export class SearchPage {
-    private page: Page;
+    searchInput: Locator;
+    searchButton: Locator;
+    productName: Locator;
+    noResultsMessage: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        this.searchInput = page.locator('#search');
+        this.searchButton = page.locator('button[title="Search"]');
+        this.productName = page.locator('.product-item-name a');
+        this.noResultsMessage = page.locator('.message.notice');
     }
 
-    private searchInput = '#search';
-    private searchButton = 'button[title="Search"]';
-    private productName = '.product-item-name a';
-    private noResultsMessage = '.message.notice';
-
     async searchForProduct(query: string) {
-        await this.page.waitForLoadState('networkidle');
-        await this.page.fill(this.searchInput, query);
-        await this.page.waitForSelector(this.searchButton, { state: 'visible' });
-        await this.page.click(this.searchButton);
-        await this.page.waitForLoadState('networkidle');
+        await this.searchInput.fill(query);
+        await this.searchButton.click();
+        await this.searchInput.page().waitForLoadState('networkidle');
     }
 
     async getProductNames(): Promise<string[]> {
-        const names = await this.page.locator(this.productName).allTextContents();
+        const names = await this.productName.allTextContents();
         return names.map(name => name.trim());
     }
 
-    async isNoResultsMessageVisible(): Promise<boolean> {
-        return await this.page.locator(this.noResultsMessage).isVisible();
-    }
-
     async getNoResultsMessage(): Promise<string> {
-        return await this.page.locator(this.noResultsMessage).textContent() || '';
+        return await this.noResultsMessage.textContent() || '';
     }
 
     async assertSearchResultsContainTerm(term: string) {
@@ -40,7 +35,7 @@ export class SearchPage {
     }
 
     async assertNoResultsMessage() {
-        await expect(this.page.locator(this.noResultsMessage)).toBeVisible();
-        await expect(this.page.locator(this.noResultsMessage)).toHaveText('Your search returned no results.');
+        await expect(this.noResultsMessage).toBeVisible();
+        await expect(this.noResultsMessage).toHaveText('Your search returned no results.');
     }
 }
