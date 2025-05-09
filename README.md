@@ -15,6 +15,7 @@ This repository contains automated tests for the Luma Webshop project, utilizing
 ## How to Run the Tests
 - Clone the Repository: Begin by cloning this repository to your local machine.
 - Install Dependencies: Install the necessary dependencies using npm or yarn.
+- Configure .env file accordingly.
 
 ### Headless Mode 
 Run Tests (Headless Mode): To run the tests in headless mode (default), use the following command. This will run the tests in the Chromium browser and display the results in the terminal.
