@@ -4,7 +4,7 @@
 
 This repository contains automated tests for the Luma Webshop project, utilizing Playwright for test automation, written in TypeScript.
 
-[![Schedueld Push](https://github.com/AmelaVorgic/luma-webshop-automatedtests/actions/workflows/scheduled-push.yml/badge.svg)](https://github.com/AmelaVorgic/luma-webshop-automatedtests/actions/workflows/scheduled-push.yml)
+[![Daily E2E Tests Run](https://github.com/AmelaVorgic/luma-webshop-automatedtests/actions/workflows/scheduled-run.yml/badge.svg)](https://github.com/AmelaVorgic/luma-webshop-automatedtests/actions/workflows/scheduled-run.yml)
 
  
 ## Prerequisites 
