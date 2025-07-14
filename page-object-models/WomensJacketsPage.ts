@@ -15,27 +15,31 @@ export class WomensJacketsPage {
     this.sortAscButton = page.getByRole('link', { name: ' Set Ascending Direction' });
     this.productList = page.locator('.products.list.items.product-items');
     this.productItem = page.locator('.product-item');
-
   }
 
   async sortBy(optionValue: string) {
-    await this.page.waitForLoadState('networkidle');
+    // Wait for sort dropdown to be ready
+    await this.sortingBy.waitFor({ state: 'visible' });
     await this.sortingBy.selectOption(optionValue);
+    
+    // Wait for products to reload after sorting
     await this.productItem.first().locator('.price').first().waitFor({ state: 'visible' });
-
   }
 
   async sortDescending() {
-    await this.page.waitForLoadState('networkidle');
+    // Wait for sort direction button to be ready
+    await this.sortDescButton.waitFor({ state: 'visible' });
     await this.sortDescButton.click();
+    
+    // Wait for products to reload after sorting
     await this.productItem.first().locator('.price').first().waitFor({ state: 'visible' });
-
   }
 
   async getAllProductPrices(): Promise<number[]> {
     const prices: number[] = [];
 
     const productCards = this.page.locator('.products-grid .product-item');
+    await productCards.first().waitFor({ state: 'visible' });
     const count = await productCards.count();
 
     for (let i = 0; i < count; i++) {
@@ -53,6 +57,7 @@ export class WomensJacketsPage {
 
   async assertDescendingPriceSort() {
     const prices = await this.getAllProductPrices();
+    expect(prices.length).toBeGreaterThan(0);
     const isSortedDesc = prices.every((val, i, arr) => i === 0 || val <= arr[i - 1]);
     expect(isSortedDesc).toBe(true);
   }

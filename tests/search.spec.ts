@@ -1,20 +1,20 @@
 import { test, expect } from '@playwright/test';
 import { SearchPage } from '../page-object-models/SearchPage';
 import { LoginPage } from '../page-object-models/LoginPage';
-import { CookiesBanner } from '../page-object-models/CookiesBanner';
+import { Consents } from '../page-object-models/Consents';
 
 test.describe('Product Search Functionality', () => {
     let searchPage: SearchPage;
     let loginPage: LoginPage;
-    let cookiesBanner: CookiesBanner;
+    let consents: Consents;
 
     test.beforeEach(async ({ page }) => {
         searchPage = new SearchPage(page);
         loginPage = new LoginPage(page);
-        cookiesBanner = new CookiesBanner(page);
+        consents = new Consents(page);
         await page.goto('/');
         await page.waitForLoadState('networkidle');
-        await cookiesBanner.acceptCookies();
+        await consents.handleAllConsents();
     });
 
     test('should find products with valid search term', async () => {

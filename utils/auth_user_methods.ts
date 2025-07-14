@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { CreateNewAccountForm } from '../page-object-models/CreateNewAccountForm';
 import { LoginPage } from '../page-object-models/LoginPage';
-import { CookiesBanner } from '../page-object-models/CookiesBanner';
+import { Consents } from '../page-object-models/Consents';
 import { faker } from '@faker-js/faker';
 import * as fs from 'fs';
 
@@ -11,9 +11,9 @@ const COOKIE_FILE_PATH = 'cookies.json';
 
 export async function registerNewTestUser(page: Page) {
     await page.goto('/customer/account/create/');
-    const cookiesBanner = new CookiesBanner(page);
+    const consents = new Consents(page);
     await page.waitForLoadState('networkidle');
-    await cookiesBanner.acceptCookies();
+    await consents.handleAllConsents();
 
     const newAccountForm = new CreateNewAccountForm(page);
 
@@ -37,9 +37,9 @@ export async function registerNewTestUser(page: Page) {
 
 export async function loginTestUser(page: Page, registeredUser: { email: string; password: string }) {
     await page.goto('/customer/account/login/');
-    const cookiesBanner = new CookiesBanner(page);
+    const consents = new Consents(page);
     await page.waitForLoadState('networkidle');
-    await cookiesBanner.acceptCookies();
+    await consents.handleAllConsents();
 
     const loginPage = new LoginPage(page);
     await loginPage.login(registeredUser.email, registeredUser.password);

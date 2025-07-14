@@ -2,12 +2,14 @@ import { Page, Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
 
 export class SearchPage {
+    readonly page: Page;
     searchInput: Locator;
     searchButton: Locator;
     productName: Locator;
     noResultsMessage: Locator;
 
     constructor(page: Page) {
+        this.page = page;
         this.searchInput = page.locator('#search');
         this.searchButton = page.locator('button[title="Search"]');
         this.productName = page.locator('.product-item-name a');
@@ -17,7 +19,9 @@ export class SearchPage {
     async searchForProduct(query: string) {
         await this.searchInput.fill(query);
         await this.searchButton.click();
-        await this.searchInput.page().waitForLoadState('networkidle');
+        
+        // Wait for search results to load
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async getProductNames(): Promise<string[]> {

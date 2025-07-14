@@ -407,3 +407,14 @@ FodyWeavers.xsd
 node_modules/
 .env
 /playwright/.auth/
+
+# Additional test reports and artifacts
+reports/
+accessibility-reports/
+functional-test-report/
+accessibility-test-report/
+test-results/
+playwright-report/
+blob-report/
+*.test-results.html
+*.accessibility-report.html

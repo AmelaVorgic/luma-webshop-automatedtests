@@ -1,13 +1,13 @@
 import { BrowserContext, test } from '@playwright/test';
 import { LoginPage } from '../page-object-models/LoginPage';
-import { CookiesBanner } from '../page-object-models/CookiesBanner';
+import { Consents } from '../page-object-models/Consents';
 import { validEmail, invalidEmail, invalidPassword } from '../utils/auth_user_credentials';
 import { registerNewTestUser } from '../utils/auth_user_methods';
 
 
 let registeredUser: { firstName: string; lastName: string; email: string; password: string };
 let browserContext: BrowserContext;
-let cookiesBanner: CookiesBanner;
+let consents: Consents;
 
 test.describe('Login Tests', () => {
     let loginPage: LoginPage;
@@ -17,17 +17,17 @@ test.describe('Login Tests', () => {
         const page = await browserContext.newPage();
         registeredUser = await registerNewTestUser(page)
         await page.close();
-    });
+     });
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('/customer/account/login/');
-        cookiesBanner = new CookiesBanner(page);
-        await page.waitForLoadState('networkidle');
-        await cookiesBanner.acceptCookies(); 
         loginPage = new LoginPage(page);
+        consents = new Consents(page);
+        await page.goto('/customer/account/login/');
+        await page.waitForLoadState('networkidle');
+        await consents.handleAllConsents();
     });
 
-    test('required fields in form cannot be left empty', async ({ page: Page }) => {
+    test('required fields in form cannot be left empty', async ({ page }) => {
         await loginPage.submit();
         await loginPage.assertAllFieldsHaveValidation();
     });
@@ -47,5 +47,4 @@ test.describe('Login Tests', () => {
         await loginPage.login(registeredUser.email, registeredUser.password);
         await loginPage.assertIsOnCustomerAccount;
     });
-
 });

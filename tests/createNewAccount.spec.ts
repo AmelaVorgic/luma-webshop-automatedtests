@@ -1,17 +1,17 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { CreateNewAccountForm } from '../page-object-models/CreateNewAccountForm';
-import { CookiesBanner } from '../page-object-models/CookiesBanner';
+import { Consents } from '../page-object-models/Consents';
 import { validName, validLastName, validEmail, invalidEmail, registeredEmail, validPassword, invalidPassword } from '../utils/auth_user_credentials';
 
 test.describe('Account Creation Tests', () => {
   let newAccountForm: CreateNewAccountForm;
-  let cookiesBanner: CookiesBanner;
+  let consents: Consents;
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/customer/account/create/');
-    cookiesBanner = new CookiesBanner(page);
+    consents = new Consents(page);
     await page.waitForLoadState('networkidle');
-    await cookiesBanner.acceptCookies();
+    await consents.handleAllConsents();
     newAccountForm = new CreateNewAccountForm(page);
   });
 
@@ -74,5 +74,4 @@ test.describe('Account Creation Tests', () => {
     await newAccountForm.submitForm();
     await newAccountForm.assertIsEmailAlreadyRegisteredErrorShown();
   });
-
 });

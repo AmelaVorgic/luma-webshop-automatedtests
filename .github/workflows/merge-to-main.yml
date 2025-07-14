@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  functional-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
@@ -22,11 +22,37 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run authentication setup
         run: npx playwright test --project=setup
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run functional tests
+        run: npm run test:functional
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
+          name: functional-test-report
+          path: playwright-report/
+          retention-days: 30
+
+  accessibility-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      VALID_USERNAME: ${{ secrets.VALID_USERNAME }}
+      VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run authentication setup
+        run: npx playwright test --project=setup
+      - name: Run accessibility tests
+        run: npm run test:accessibility
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: accessibility-test-report
           path: playwright-report/
           retention-days: 30
