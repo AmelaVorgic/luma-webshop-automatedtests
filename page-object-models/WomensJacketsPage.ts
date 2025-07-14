@@ -18,21 +18,21 @@ export class WomensJacketsPage {
   }
 
   async sortBy(optionValue: string) {
-    // Wait for sort dropdown to be ready
     await this.sortingBy.waitFor({ state: 'visible' });
     await this.sortingBy.selectOption(optionValue);
-    
-    // Wait for products to reload after sorting
-    await this.productItem.first().locator('.price').first().waitFor({ state: 'visible' });
+    await this.page.waitForFunction(() => {
+      const products = document.querySelectorAll('.product-item');
+      return products.length > 0;
+    });
   }
 
   async sortDescending() {
-    // Wait for sort direction button to be ready
     await this.sortDescButton.waitFor({ state: 'visible' });
     await this.sortDescButton.click();
-    
-    // Wait for products to reload after sorting
-    await this.productItem.first().locator('.price').first().waitFor({ state: 'visible' });
+    await this.page.waitForFunction(() => {
+      const products = document.querySelectorAll('.product-item');
+      return products.length > 0;
+    });
   }
 
   async getAllProductPrices(): Promise<number[]> {

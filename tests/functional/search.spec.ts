@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { SearchPage } from '../page-object-models/SearchPage';
-import { LoginPage } from '../page-object-models/LoginPage';
-import { Consents } from '../page-object-models/Consents';
+import { SearchPage } from '../../page-object-models/SearchPage';
+import { LoginPage } from '../../page-object-models/LoginPage';
+import { Consents } from '../../page-object-models/Consents';
 
 test.describe('Product Search Functionality', () => {
     let searchPage: SearchPage;
@@ -13,7 +13,7 @@ test.describe('Product Search Functionality', () => {
         loginPage = new LoginPage(page);
         consents = new Consents(page);
         await page.goto('/');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         await consents.handleAllConsents();
     });
 

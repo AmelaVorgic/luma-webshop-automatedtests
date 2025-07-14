@@ -60,6 +60,7 @@ export class CreateNewAccountForm {
 
   async fillPassword(password: string) {
     await this.passwordInput.fill(password);
+    await this.passwordInput.press('Tab');
   }
 
   async assertIsWeakPasswordMessageShown() {

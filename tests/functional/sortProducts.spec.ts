@@ -1,9 +1,9 @@
 import { test } from '@playwright/test';
-import { WomensJacketsPage } from '../page-object-models/WomensJacketsPage';
-import { Consents } from '../page-object-models/Consents';
+import { WomensJacketsPage } from '../../page-object-models/WomensJacketsPage';
+import { Consents } from '../../page-object-models/Consents';
 import path from 'path';
 
-test.use({ storageState: path.resolve(__dirname, '../playwright/.auth/user.json') });
+test.use({ storageState: path.resolve(__dirname, '../../playwright/.auth/user.json') });
 
 let jacketsPage: WomensJacketsPage;
 let consents: Consents;
@@ -18,8 +18,15 @@ test.describe('Product Sorting on Jackets Page', () => {
   });
 
   test('sort by price descending', async ({ page }) => {
-    await jacketsPage.sortDescending();
+    // First sort by price
     await jacketsPage.sortBy('price');
+    await page.waitForTimeout(2000);
+    
+    // Then set descending order
+    await jacketsPage.sortDescending();
+    await page.waitForTimeout(2000);
+    
+    // Assert the sorting
     await jacketsPage.assertDescendingPriceSort();
   });
 });

@@ -1,8 +1,8 @@
 import { BrowserContext, test } from '@playwright/test';
-import { LoginPage } from '../page-object-models/LoginPage';
-import { Consents } from '../page-object-models/Consents';
-import { validEmail, invalidEmail, invalidPassword } from '../utils/auth_user_credentials';
-import { registerNewTestUser } from '../utils/auth_user_methods';
+import { LoginPage } from '../../page-object-models/LoginPage';
+import { Consents } from '../../page-object-models/Consents';
+import { validEmail, invalidEmail, invalidPassword } from '../../utils/auth_user_credentials';
+import { registerNewTestUser } from '../../utils/auth_user_methods';
 
 
 let registeredUser: { firstName: string; lastName: string; email: string; password: string };
@@ -23,27 +23,27 @@ test.describe('Login Tests', () => {
         loginPage = new LoginPage(page);
         consents = new Consents(page);
         await page.goto('/customer/account/login/');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         await consents.handleAllConsents();
     });
 
-    test('required fields in form cannot be left empty', async ({ page }) => {
+    test('required fields in form cannot be left empty', async () => {
         await loginPage.submit();
         await loginPage.assertAllFieldsHaveValidation();
     });
 
-    test('valid email and password are needed for login', async ({ page }) => {
+    test('valid email and password are needed for login', async () => {
         await loginPage.login(validEmail, invalidPassword);
         await loginPage.assertInvalidLoginMessage();
     });
 
-    test('email must be in valid email format', async ({ page }) => {
+    test('email must be in valid email format', async () => {
         await loginPage.fillEmail(invalidEmail);
         await loginPage.submit();
         await loginPage.assertIsEmailFormatErrorShown();
     });
 
-    test('user is logged in successfully', async ({ page }) => {
+    test('user is logged in successfully', async () => {
         await loginPage.login(registeredUser.email, registeredUser.password);
         await loginPage.assertIsOnCustomerAccount;
     });

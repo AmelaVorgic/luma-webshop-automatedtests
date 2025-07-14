@@ -17,7 +17,6 @@ export class Consents {
 
   async closeGoogleAds() {
     try {
-      // Try to close any visible Google Ads
       const closeButtons = this.googleAdsCloseButton.page().locator('[aria-label="Close ad"], [aria-label="Close"]');
       const count = await closeButtons.count();
       

@@ -19,8 +19,6 @@ export class SearchPage {
     async searchForProduct(query: string) {
         await this.searchInput.fill(query);
         await this.searchButton.click();
-        
-        // Wait for search results to load
         await this.page.waitForLoadState('domcontentloaded');
     }
 

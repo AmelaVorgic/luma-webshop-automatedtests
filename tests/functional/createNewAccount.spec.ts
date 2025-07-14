@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { CreateNewAccountForm } from '../page-object-models/CreateNewAccountForm';
-import { Consents } from '../page-object-models/Consents';
-import { validName, validLastName, validEmail, invalidEmail, registeredEmail, validPassword, invalidPassword } from '../utils/auth_user_credentials';
+import { CreateNewAccountForm } from '../../page-object-models/CreateNewAccountForm';
+import { Consents } from '../../page-object-models/Consents';
+import { validName, validLastName, validEmail, invalidEmail, registeredEmail, validPassword, invalidPassword } from '../../utils/auth_user_credentials';
 
 test.describe('Account Creation Tests', () => {
   let newAccountForm: CreateNewAccountForm;
@@ -10,7 +10,7 @@ test.describe('Account Creation Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/customer/account/create/');
     consents = new Consents(page);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await consents.handleAllConsents();
     newAccountForm = new CreateNewAccountForm(page);
   });
@@ -50,14 +50,14 @@ test.describe('Account Creation Tests', () => {
     await newAccountForm.assertIsStrongPasswordShown();
   });
 
-  test('confirm password must match the previously entered password', async ({ page }) => {
+  test('confirm password must match the previously entered password', async () => {
     await newAccountForm.fillPassword(validPassword);
     await newAccountForm.fillConfirmPassword(invalidPassword);
     await newAccountForm.submitForm();
     await newAccountForm.assertisPasswordMismatchErrorShown();
   });
 
-  test('email must be in valid email format', async ({ page }) => {
+  test('email must be in valid email format', async () => {
     await newAccountForm.fillEmail(invalidEmail);
     await newAccountForm.submitForm();
     await newAccountForm.assertIsEmailFormatErrorShown();
